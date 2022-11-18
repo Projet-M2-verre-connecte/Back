@@ -4,7 +4,7 @@
 
 1) installer xamp
 2) cloner le repo front dans le fichier "C:/xampp/htdocs/"
-(dans l'exemple décrit ci-dessous le projet a été cloné dans le fichier "C:/xampp/htdocs/projet/projet_TMS/Front")
+(dans l'exemple décrit ci-dessous le projet a été cloné dans le fichier "C:/xampp/htdocs/projet/projet_TMS/Back")
 
 # Configuration de Xampp pour l'environnement local :
 
