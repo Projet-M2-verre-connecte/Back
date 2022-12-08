@@ -1,6 +1,6 @@
 <?php
 
-  	require_once('database.php');
+  	require_once('request.php');
 
   	// Connexion à la bdd.
   	$db = dbConnect();
@@ -22,13 +22,17 @@
   	}
   	$data = false;
 
-  	if ($requestRessource == 'select_user'){
-		$data = dbRequestUser($db);
+  	if ($requestRessource == 'select_patient'){
+		$data = dbRequestPatient($db, $_GET["id"]);
 	}
 
-	else if($requestRessource == 'select_test'){
-		$data = dbRequestTest($db);
-	}	
+	else if($requestRessource == 'select_patients'){
+		$data = dbRequestPatients($db, $_GET["id"]);
+	}
+
+	if ($requestRessource == 'select_datas'){
+		$data = dbRequestDatas($db, $_GET["id"]);
+	}
 	
 	// Send data to the client.
 	header('Content-Type: application/json; charset=utf-8');
