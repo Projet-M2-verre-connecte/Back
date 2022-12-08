@@ -26,9 +26,9 @@ function dbConnect(){
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestUser ----------------------------------------------------------
+//--- dbRequestPatient ----------------------------------------------------------
 //----------------------------------------------------------------------------
-// On récupère le nom et prenom des users
+// On récupère toutes les données d'un patient
 
 function dbRequestPatient($db, $id) {
 
@@ -45,15 +45,34 @@ function dbRequestPatient($db, $id) {
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestRunners -------------------------------------------------------
+//--- dbRequestPatients -------------------------------------------------------
 //----------------------------------------------------------------------------
-// On récupère le nom, prénom
+// On récupère les patients pour un moniteur choisi
 
-function dbRequestPatients($db) {
+function dbRequestPatients($db, $id) {
     
     try {
-        $query = $db->prepare('SELECT p.id_patient, p.name, p.surname FROM Patient as p ;');
-        $query->execute();
+        $query = $db->prepare('SELECT p.id_patient, p.name, p.surname  FROM Patient AS p INNER JOIN link_to AS l ON p.id_patient = l.id_patient INNER JOIN Monitor as m ON m.id_monitor = l.id_monitor WHERE m.id_monitor = ?;');
+        $query->execute(array($id));
+        $response = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $response;
+    }
+    catch (PDOExecption $exception) {
+        error_log('Connection error: '.$exception->getMessage());
+        return false;
+    }
+}
+
+//----------------------------------------------------------------------------
+//--- dbRequestDatas -------------------------------------------------------
+//----------------------------------------------------------------------------
+// On récupère les datas relative à un patient
+
+function dbRequestDatas($db, $id) {
+    
+    try {
+        $query = $db->prepare('SELECT * FROM Data WHERE id_patient = ? ;');
+        $query->execute(array($id));
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;
     }

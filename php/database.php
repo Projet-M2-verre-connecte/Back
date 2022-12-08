@@ -1,6 +1,6 @@
 <?php
 
-  	require_once('database.php');
+  	require_once('request.php');
 
   	// Connexion à la bdd.
   	$db = dbConnect();
@@ -27,15 +27,18 @@
 	}
 
 	else if($requestRessource == 'select_patients'){
-		$data = dbRequestPatients($db);
-	}	
+		$data = dbRequestPatients($db, $_GET["id"]);
+	}
+
+	if ($requestRessource == 'select_datas'){
+		$data = dbRequestDatas($db, $_GET["id"]);
+	}
 	
 	// Send data to the client.
 	header('Content-Type: application/json; charset=utf-8');
 	header('Cache-control: no-store, no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	header('HTTP/1.1 200 OK');
-	echo "pouet";
 	echo json_encode($data);
 	exit;
 ?>
