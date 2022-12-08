@@ -30,11 +30,11 @@ function dbConnect(){
 //----------------------------------------------------------------------------
 // On récupère le nom et prenom des users
 
-function dbRequestUser($db) {
+function dbRequestPatient($db, $id) {
 
     try {
-        $query = $db->prepare('SELECT nom, prenom FROM user;');
-        $query->execute();
+        $query = $db->prepare('SELECT * FROM Patient WHERE id_patient = ?;');
+        $query->execute(array($id));
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;
     }
@@ -49,10 +49,10 @@ function dbRequestUser($db) {
 //----------------------------------------------------------------------------
 // On récupère le nom, prénom
 
-function dbRequestTest($db) {
+function dbRequestPatients($db) {
     
     try {
-        $query = $db->prepare('SELECT mail, nom, prenom, num_licence, categorie, date_naissance, club, valide FROM cycliste;');
+        $query = $db->prepare('SELECT p.id_patient, p.name, p.surname FROM Patient as p ;');
         $query->execute();
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;

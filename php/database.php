@@ -22,12 +22,12 @@
   	}
   	$data = false;
 
-  	if ($requestRessource == 'select_user'){
-		$data = dbRequestUser($db);
+  	if ($requestRessource == 'select_patient'){
+		$data = dbRequestPatient($db, $_GET["id"]);
 	}
 
-	else if($requestRessource == 'select_test'){
-		$data = dbRequestTest($db);
+	else if($requestRessource == 'select_patients'){
+		$data = dbRequestPatients($db);
 	}	
 	
 	// Send data to the client.
@@ -35,6 +35,7 @@
 	header('Cache-control: no-store, no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	header('HTTP/1.1 200 OK');
+	echo "pouet";
 	echo json_encode($data);
 	exit;
 ?>
