@@ -30,8 +30,20 @@
 		$data = dbRequestPatients($db, $_GET["id"]);
 	}
 
-	if ($requestRessource == 'select_datas'){
+	else if ($requestRessource == 'select_datas'){
 		$data = dbRequestDatas($db, $_GET["id"]);
+	}
+
+	else if ($requestRessource == 'select_DayConso'){
+		$data = dbRequestDayConso($db, $_GET["id"]);
+	}
+
+	else if ($requestRessource == 'select_WeekConso'){
+		$data = dbRequestWeekConso($db, $_GET["id"]);
+	}
+
+	else if ($requestRessource == 'select_MonthConso'){
+		$data = dbRequestMonthConso($db, $_GET["id"]);
 	}
 	
 	// Send data to the client.
