@@ -81,3 +81,67 @@ function dbRequestDatas($db, $id) {
         return false;
     }
 }
+
+//----------------------------------------------------------------------------
+//--- dbRequestDatas -------------------------------------------------------
+//----------------------------------------------------------------------------
+// On récupère les datas relative à un patient
+
+function dbRequestDayConso($db, $id) {
+    
+    try {
+        $query = $db->prepare('SELECT d.volume, d.datetime FROM `data` AS d WHERE id_patient = ? AND DATE(d.datetime) = DATE(now());');
+        $query->execute(array($id));
+        $response = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $response;
+    }
+    catch (PDOExecption $exception) {
+        error_log('Connection error: '.$exception->getMessage());
+        return false;
+    }
+}
+
+//----------------------------------------------------------------------------
+//--- dbRequestWeekConso -------------------------------------------------------
+//----------------------------------------------------------------------------
+// On récupère la consommation hebdomadaire 
+
+function dbRequestWeekConso($db, $id) {
+    
+    try {
+        $query = $db->prepare('SELECT*
+        FROM data AS d
+        WHERE (DAYOFWEEK(now()) > 1 AND d.datetime >= date_sub(now(), INTERVAL (dayofweek(now()) - 1) DAY))
+        OR (DAYOFWEEK(now()) = 1 AND d.datetime >= date_sub(now(), INTERVAL 6 DAY)) 
+        AND id_patient = ?;');
+        $query->execute(array($id));
+        $response = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $response;
+    }
+    catch (PDOExecption $exception) {
+        error_log('Connection error: '.$exception->getMessage());
+        return false;
+    }
+}
+
+//----------------------------------------------------------------------------
+//--- dbRequestMonthConso -------------------------------------------------------
+//----------------------------------------------------------------------------
+// On récupère la consommation hebdomadaire 
+
+function dbRequestMonthConso($db, $id) {
+    
+    try {
+        $query = $db->prepare('SELECT*
+        FROM data AS d
+        WHERE MONTH(now()) = MONTH(d.datetime) AND YEAR(now()) = YEAR(d.datetime)
+        AND id_patient = ?;');
+        $query->execute(array($id));
+        $response = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $response;
+    }
+    catch (PDOExecption $exception) {
+        error_log('Connection error: '.$exception->getMessage());
+        return false;
+    }
+}
