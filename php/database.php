@@ -45,11 +45,7 @@
 	else if ($requestRessource == 'select_MonthConso'){
 		$data = dbRequestMonthConso($db, $_GET["id"]);
 	}
-
-
 	
-
-
 	// Send data to the client.
 	header('Content-Type: application/json; charset=utf-8');
 	header('Cache-control: no-store, no-cache, must-revalidate');
