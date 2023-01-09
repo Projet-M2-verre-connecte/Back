@@ -27,7 +27,7 @@ function dbConnect(){
 
 //----------------------------------------------------------------------------
 //--- dbRequestPatient -------------------------------------------------------
-//--- ROUTE : http://ip_route/php/patient ------------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_patient?id=1 -----------
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, d'un seul patient
 
@@ -47,7 +47,7 @@ function dbRequestPatient($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestPatients ------------------------------------------------------
-//--- ROUTE : http://ip_route/php/select_patients?id=1 -----------------------
+//--- ROUTE : http://ip_route/php/database.php/select_patient_with_monitor?id=1
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, des patients ayant le même observateur	
 
@@ -70,8 +70,8 @@ function dbRequestPatientsWithSameMonitor($db, $id) {
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestDatas ---------------------------------------------------------
-//--- ROUTE : http://ip_route/php/database.php/select_datas?id=1 -------------
+//--- dbRequestData ----------------------------------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_data?id=1 --------------
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, age, weight, objective d'un seul patient
 
@@ -91,11 +91,11 @@ function dbRequestData($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestTodayData -----------------------------------------------------
-//--- ROUTE : http://ip_route/php/today?id=1 ---------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_day_conso?id=1 ---------------------------------
 //----------------------------------------------------------------------------
 // On récupère la date et le volume d'un patient en fonction de la date du jour	
 
-function dbRequestTodayData($db, $id) {
+function dbRequestDayConso($db, $id) {
     
     try {
         $query = $db->prepare('SELECT datetime,volume 
@@ -114,33 +114,8 @@ function dbRequestTodayData($db, $id) {
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestSpecificDateData ----------------------------------------------
-//--- ROUTE : http://ip_route/php/dateX?id=1&date=2022-11-15 -----------------
-//----------------------------------------------------------------------------
-// On récupère la date et le volume bu d'un patient en fonction d'une date spécifié
-
-
-function dbRequestSpecificDateData($db, $id, $date) {
-    
-    try {
-        $query = $db->prepare('SELECT datetime,volume 
-            FROM Data
-            INNER JOIN Patient ON Data.id_patient = Patient.id_patient
-            WHERE DATE(datetime) = :date
-            AND Data.id_patient = :id;');
-        $query->execute(array(':date' => $date, ':id' => $id));
-        $response = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $response;
-    }
-    catch (PDOExecption $exception) {
-        error_log('Connection error: '.$exception->getMessage());
-        return false;
-    }
-}
-
-//----------------------------------------------------------------------------
 //--- dbRequestWeekConso -----------------------------------------------------
-//--- ROUTE : http://ip_route/php/dateX?id=1 ---------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_week_conso?id=1 --------
 //----------------------------------------------------------------------------
 // On récupère la consommation hebdomadaire 
 
@@ -148,10 +123,10 @@ function dbRequestWeekConso($db, $id) {
     
     try {
         $query = $db->prepare('SELECT*
-        FROM data AS d
-        WHERE (DAYOFWEEK(now()) > 1 AND d.datetime >= date_sub(now(), INTERVAL (dayofweek(now()) - 1) DAY))
-        OR (DAYOFWEEK(now()) = 1 AND d.datetime >= date_sub(now(), INTERVAL 6 DAY)) 
-        AND id_patient = ?;');
+            FROM data AS d
+            WHERE (DAYOFWEEK(now()) > 1 AND d.datetime >= date_sub(now(), INTERVAL (dayofweek(now()) - 1) DAY))
+            OR (DAYOFWEEK(now()) = 1 AND d.datetime >= date_sub(now(), INTERVAL 6 DAY)) 
+            AND id_patient = ?;');
         $query->execute(array($id));
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;
@@ -164,7 +139,7 @@ function dbRequestWeekConso($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestMonthConso ----------------------------------------------------
-//--- ROUTE : http://ip_route/php/dateX?id=1 ---------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_month_conso?id=1 -------
 //----------------------------------------------------------------------------
 // On récupère la consommation hebdomadaire 
 
@@ -172,10 +147,34 @@ function dbRequestMonthConso($db, $id) {
     
     try {
         $query = $db->prepare('SELECT*
-        FROM data AS d
-        WHERE MONTH(now()) = MONTH(d.datetime) AND YEAR(now()) = YEAR(d.datetime)
-        AND id_patient = ?;');
+            FROM data AS d
+            WHERE MONTH(now()) = MONTH(d.datetime) AND YEAR(now()) = YEAR(d.datetime)
+            AND id_patient = ?;');
         $query->execute(array($id));
+        $response = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $response;
+    }
+    catch (PDOExecption $exception) {
+        error_log('Connection error: '.$exception->getMessage());
+        return false;
+    }
+}
+    
+//----------------------------------------------------------------------------
+//--- dbRequestSpecificDateData ----------------------------------------------
+//--- ROUTE : http://ip_route/php/database.php/select_day?id=1 -----------------
+//----------------------------------------------------------------------------
+// On récupère la date et le volume bu d'un patient en fonction d'une date spécifié
+
+function dbRequestSpecificDateData($db, $id, $date) {
+    
+    try {
+        $query = $db->prepare('SELECT datetime,volume 
+            FROM Data
+            INNER JOIN Patient ON Data.id_patient = Patient.id_patient
+            WHERE DATE(datetime) = :date
+            AND Data.id_patient = :id;');
+        $query->execute(array(':date' => $date, ':id' => $id));
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;
     }

@@ -26,24 +26,28 @@
 		$data = dbRequestPatient($db, $_GET["id"]);
 	}
 
-	else if($requestRessource == 'select_patients'){
+	else if($requestRessource == 'select_patient_with_monitor'){
 		$data = dbRequestPatientsWithSameMonitor($db, $_GET["id"]);
 	}
 
-	else if ($requestRessource == 'select_datas'){
-		$data = dbRequestDatas($db, $_GET["id"]);
+	else if ($requestRessource == 'select_data'){
+		$data = dbRequestData($db, $_GET["id"]);
 	}
 
-	else if ($requestRessource == 'select_DayConso'){
+	else if ($requestRessource == 'select_day_conso'){
 		$data = dbRequestDayConso($db, $_GET["id"]);
 	}
 
-	else if ($requestRessource == 'select_WeekConso'){
+	else if ($requestRessource == 'select_week_conso'){
 		$data = dbRequestWeekConso($db, $_GET["id"]);
 	}
 
-	else if ($requestRessource == 'select_MonthConso'){
+	else if ($requestRessource == 'select_month_conso'){
 		$data = dbRequestMonthConso($db, $_GET["id"]);
+	}
+
+	else if ($requestRessource == 'select_day'){
+		$data = dbRequestSpecificDateData($db, $_GET["id"], $_GET["date"]);
 	}
 	
 	// Send data to the client.
