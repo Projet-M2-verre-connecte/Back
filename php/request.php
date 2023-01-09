@@ -27,7 +27,7 @@ function dbConnect(){
 
 //----------------------------------------------------------------------------
 //--- dbRequestPatient -------------------------------------------------------
-//--- ROUTE : http://10.10.54.10/php/patient ---------------------------------
+//--- ROUTE : http://ip_route/php/patient ------------------------------------
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, d'un seul patient
 
@@ -47,11 +47,11 @@ function dbRequestPatient($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestPatients ------------------------------------------------------
-//--- ROUTE : http://10.10.54.10/php/select_patients?id=1 --------------------
+//--- ROUTE : http://ip_route/php/select_patients?id=1 -----------------------
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, des patients ayant le même observateur	
 
-function dbRequestPatients($db,$id) {
+function dbRequestPatientsWithSameMonitor($db, $id) {
 
     try {
         $query = $db->prepare('SELECT p.id_patient, p.name, p.surname  
@@ -71,11 +71,11 @@ function dbRequestPatients($db,$id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestDatas ---------------------------------------------------------
-//--- ROUTE : http://10.10.54.10/php/database.php/select_datas?id=1 ----------
+//--- ROUTE : http://ip_route/php/database.php/select_datas?id=1 -------------
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, age, weight, objective d'un seul patient
 
-function dbRequestDatas($db, $id) {
+function dbRequestData($db, $id) {
     
     try {
         $query = $db->prepare('SELECT * FROM Data WHERE id_patient = ? ;');
@@ -91,7 +91,7 @@ function dbRequestDatas($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestTodayData -----------------------------------------------------
-//--- ROUTE : http://10.10.54.10/php/today?id=1 ------------------------------
+//--- ROUTE : http://ip_route/php/today?id=1 ---------------------------------
 //----------------------------------------------------------------------------
 // On récupère la date et le volume d'un patient en fonction de la date du jour	
 
@@ -115,7 +115,7 @@ function dbRequestTodayData($db, $id) {
 
 //----------------------------------------------------------------------------
 //--- dbRequestSpecificDateData ----------------------------------------------
-//--- ROUTE : http://10.10.54.10/php/dateX?id=1&date=2022-11-15 --------------
+//--- ROUTE : http://ip_route/php/dateX?id=1&date=2022-11-15 -----------------
 //----------------------------------------------------------------------------
 // On récupère la date et le volume bu d'un patient en fonction d'une date spécifié
 
@@ -139,7 +139,8 @@ function dbRequestSpecificDateData($db, $id, $date) {
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestWeekConso -------------------------------------------------------
+//--- dbRequestWeekConso -----------------------------------------------------
+//--- ROUTE : http://ip_route/php/dateX?id=1 ---------------------------------
 //----------------------------------------------------------------------------
 // On récupère la consommation hebdomadaire 
 
@@ -162,7 +163,8 @@ function dbRequestWeekConso($db, $id) {
 }
 
 //----------------------------------------------------------------------------
-//--- dbRequestMonthConso -------------------------------------------------------
+//--- dbRequestMonthConso ----------------------------------------------------
+//--- ROUTE : http://ip_route/php/dateX?id=1 ---------------------------------
 //----------------------------------------------------------------------------
 // On récupère la consommation hebdomadaire 
 

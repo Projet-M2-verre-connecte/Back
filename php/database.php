@@ -27,7 +27,7 @@
 	}
 
 	else if($requestRessource == 'select_patients'){
-		$data = dbRequestPatients($db, $_GET["id"]);
+		$data = dbRequestPatientsWithSameMonitor($db, $_GET["id"]);
 	}
 
 	else if ($requestRessource == 'select_datas'){
