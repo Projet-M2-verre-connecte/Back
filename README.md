@@ -25,6 +25,22 @@ le path à écrire commencera forcément par : "C:/xampp/htdocs/" + l'arborescen
 ```
 127.0.0.1	prj-tms-web-back-api.fr
 ```
-/!\ attention, veuillez selectionner "tout type de fichier .\* " /!\\
+/!\ attention, veuillez sélectionner "tout type de fichier .\* " /!\\
 
-5) installer la bdd et remplir le fichier constantes.php
+5) installer la bdd en lançant mysql et apache sur le panneau de contrôle xampp et en allant sur phpmyadmin : 
+```
+http://127.0.0.1/phpmyadmin
+```
+puis créé une nouvelle base de données :
+```
+projet_tms
+```
+et importer le fichier .sql
+6) remplir le fichier constantes.php de cette manière :
+  define('DB_USER', 'user');
+  define('DB_PASSWORD', 'password');
+  define('DB_NAME', 'projet_tms');
+  define('DB_SERVER', 'localhost');
+  Header('Access-Control-Allow-Origin:http://prj-tms-web-back-api.fr');
+  
+/!\ attention le user et le password son propre à votre machine, créez en un si nécessaire (onglet privilege avec pour nom d'hôte localhost).\* " /!\\
