@@ -43,4 +43,4 @@ et importer le fichier .sql
   define('DB_SERVER', 'localhost');
   Header('Access-Control-Allow-Origin:http://prj-tms-web-back-api.fr');
   
-/!\ attention le user et le password son propre à votre machine, créez en un si nécessaire .\* " /!\\
+/!\ attention le user et le password son propre à votre machine, créez en un si nécessaire (onglet privilege avec pour nom d'hôte localhost).\* " /!\\
