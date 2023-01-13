@@ -37,10 +37,11 @@ projet_tms
 ```
 et importer le fichier .sql
 6) remplir le fichier constantes.php de cette manière :
+```
   define('DB_USER', 'user');
   define('DB_PASSWORD', 'password');
   define('DB_NAME', 'projet_tms');
   define('DB_SERVER', 'localhost');
   Header('Access-Control-Allow-Origin:http://prj-tms-web-back-api.fr');
-  
+```
 /!\ attention le user et le password son propre à votre machine, créez en un si nécessaire (onglet privilege avec pour nom d'hôte localhost).\* " /!\\
