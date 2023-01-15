@@ -51,15 +51,14 @@ function dbRequestPatient($db, $id) {
 //----------------------------------------------------------------------------
 // On récupère id, name, surname, des patients ayant le même observateur	
 
-function dbRequestPatients($db,$id) {
+function dbRequestPatients($db) {
 
     try {
         $query = $db->prepare('SELECT p.id_patient, p.name, p.surname  
             FROM Patient AS p 
             INNER JOIN Link_to AS l ON p.id_patient = l.id_patient 
-            INNER JOIN Monitor as m ON m.id_monitor = l.id_monitor 
-            WHERE m.id_monitor = ?;');
-        $query->execute(array($id));
+            INNER JOIN Monitor as m ON m.id_monitor = l.id_monitor');
+        $query->execute();
         $response = $query->fetchAll(PDO::FETCH_ASSOC);
         return $response;
     }
